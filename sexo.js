@@ -24,15 +24,31 @@ class Inventario {
     this.primero = null;
   }
   agregar(nuevo) {
-    if (this.primero == null) this.primero = nuevo;
-    else {
-      let aux = this.primero;
-      while (aux.siguiente != null) aux = aux.siguiente;
-      aux.siguiente = nuevo;
-      nuevo.anterior = aux;
+    if (this.primero == null) {
+      this.primero = nuevo;
+    } else {
+      let actual = this.primero;
+      let anterior = null;
+
+      while (actual != null && nuevo.dato > actual.dato) {
+        anterior = actual;
+        actual = actual.siguiente;
+      }
+
+      nuevo.siguiente = actual;
+      nuevo.anterior = anterior;
+
+      if (anterior != null) {
+        anterior.siguiente = nuevo;
+      } else {
+        this.primero = nuevo;
+      }
+
+      if (actual != null) {
+        actual.anterior = nuevo;
+      }
     }
   }
-
   listar() {
     if (this.primero == null) return "";
     else return this._listarRec(this.primero);
